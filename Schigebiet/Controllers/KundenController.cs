@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Projekt_Schigebiet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,17 +7,19 @@ using System.Threading.Tasks;
 
 namespace Projekt_Schigebiet.Controllers
 {
-    public class HomeController : Controller
+    public class KundenController : Controller
     {
         public IActionResult Index()
         {
-            return View();
+            Kunde kunde = new Kunde(0, "Hermann", "Dolm");
+            
+            return View(kunde);
         }
-        public IActionResult Info()
+        public IActionResult Registrierung()
         {
             return View();
         }
-        public IActionResult Impressum()
+        public IActionResult Anmeldung()
         {
             return View();
         }

@@ -6,17 +6,9 @@ using System.Threading.Tasks;
 
 namespace Projekt_Schigebiet.Controllers
 {
-    public class HomeController : Controller
+    public class TicketController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Info()
-        {
-            return View();
-        }
-        public IActionResult Impressum()
         {
             return View();
         }
