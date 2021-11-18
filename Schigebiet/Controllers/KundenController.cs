@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Projekt_Schigebiet.Models;
+using Schigebiet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Projekt_Schigebiet.Controllers
+namespace Schigebiet.Controllers
 {
     public class KundenController : Controller
     {
