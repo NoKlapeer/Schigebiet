@@ -1,5 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+@model Schigebiet.Models.Kunde
+
+
 @{
+    ViewData["Title"] = "Index";
 }
+
+<h3>Index</h3>
+
+<div>
+    
+    @if (Model != null)
+    {
+        <p>
+            @Model.KundenId<br />
+            @Model.Name<br />
+            @Model.Password
+        </p>
+    }
+    else
+    {
+        <p>
+            keine Userdaten vorhanden!
+        </p>
+    }
+</div>

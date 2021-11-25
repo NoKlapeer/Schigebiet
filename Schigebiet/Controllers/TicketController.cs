@@ -12,5 +12,8 @@ namespace Schigebiet.Controllers
         {
             return View();
         }
+        public IActionResult Verkauf() {
+            return View();
+        }
     }
 }

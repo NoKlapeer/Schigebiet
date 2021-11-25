@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Schigebiet.Controllers
 {
-    public class KundenController : Controller
+    public class KundeController : Controller
     {
         public IActionResult Index()
         {

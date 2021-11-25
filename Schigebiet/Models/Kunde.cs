@@ -8,10 +8,6 @@ namespace Schigebiet.Models
     public class Kunde
     {
         private int kundenId;
-        private int v1;
-        private string v2;
-        private string v3;
-
        
 
         public int KundenId
