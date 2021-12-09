@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Schigebiet.Models.Ticket>
+
 @{
+    ViewData["Title"] = "Ticketverkauf";
+}
+
+<h1>Tickets verkauft!</h1>
+
+@if (Model != null && Model.Count >= 1)
+{
+    <table>
+        <thead>
+            <tr>
+                <td>Ticketnummer</td>
+                <td>Preis</td>
+                <td>Kaufzeitpunkt</td>
+                <td>Art des Tickets</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Ticket ti in Model)
+            {
+                <tr>
+                    <td>@ti.Ticketnr</td>
+                    <td>@ti.Preis</td>
+                    <td>@ti.TicketArt</td>
+                    <td>@ti.KaufZeitpunkt.ToLongDateString()</td>
+                </tr>
+            }
+        </tbody>
+        
+    </table>
+}
+else
+{
+    <p>
+        keine Tickets verkauft :(
+    </p>
 }

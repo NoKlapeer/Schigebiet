@@ -1,10 +1,48 @@
-﻿
+﻿@model Schigebiet.Models.Kunde
+
 @{
     ViewData["Title"] = "Registrierung";
 }
 
 <h1>Registrierung</h1>
 
-<p>
-    hier wird später das Formular für die Registrierung dargestellt
-</p>
+<form asp-controller="user" asp-action="registration" method="post">
+
+    @*in eigenem Programm Pflichtfelder mit **@
+
+    <p>
+        <label asp-for="Name">Benutzername</label><br />
+        <input type="text" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </p>
+    <p>
+        <label asp-for="Password">Passwort</label><br />
+        <input type="password" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </p>
+    <p>
+        <label asp-for="EMail">EMail-Adresse</label><br />
+        <input type="email" asp-for="EMail" />
+        <span asp-validation-for="EMail"></span>
+    </p>
+    <p>
+        <label asp-for="Birthdate">Geburtsdatum</label><br />
+        <input type="date" asp-for="Birthdate" />
+        <span asp-validation-for="Birthdate"></span>
+    </p>
+    <p>
+        <label asp-for="Geschlecht">Geschlecht</label><br />
+        <select asp-for="Geschlecht">
+            <option value="0">männlich</option>
+            <option value="1">weiblich</option>
+            <option value="2">divers</option>
+            <option value="3" selected>nicht angegeben</option>
+        </select>
+        <span asp-validation-for="Geschlecht"></span>
+    </p>
+    <p>
+
+        <input type="submit" value="absenden" />
+        <input type="reset" value="abbrechen" />
+    </p>
+</form>

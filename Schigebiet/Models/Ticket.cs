@@ -33,7 +33,9 @@ namespace Schigebiet.Models
             }
         }
 
-        public TicketArt ticketArt { get; set; }
+        public DateTime KaufZeitpunkt { get; set; }
+
+        public TicketArt TicketArt { get; set; }
 
 
     }

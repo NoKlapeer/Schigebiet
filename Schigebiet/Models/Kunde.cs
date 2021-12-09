@@ -8,7 +8,7 @@ namespace Schigebiet.Models
     public class Kunde
     {
         private int kundenId;
-       
+
 
         public int KundenId
         {
@@ -25,6 +25,11 @@ namespace Schigebiet.Models
         public string Name { get; set; }
 
         public string Password { get; set; }
+
+        public DateTime Birthdate { get; set; }
+        
+        public string EMail { get; set; }
+        public string Geschlecht { get; set; }
 
         public Kunde(int kId, string na, string pw)
         {

@@ -6,50 +6,20 @@
     <title>@ViewData["Title"] - Schigebiet</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" type="image/x-icon" href="~/multimedia/pictures/favicon.ico">
 </head>
 <body>
     <div id="container">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Schigebiet</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navnbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kunde" asp-action="Registrierung">Registrierung</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kunde" asp-action="Anmeldung">Anmeldung</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kunde" asp-action="Index">Kunden</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Index">Tickets</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Verkauf">Ticketverkauf</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <partial name = "Navigation"/>
         </nav>
-
-
-        <content>
-            @RenderBody()
-        </content>
+            <content>
+                @RenderBody()
+            </content>
 
 
 
-    </div>
+</div>
 
     @*<footer class="border-top footer text-muted">
         
