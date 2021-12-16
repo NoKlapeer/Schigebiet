@@ -31,12 +31,12 @@ namespace Schigebiet.Models
         public string EMail { get; set; }
         public string Geschlecht { get; set; }
 
-        public Kunde(int kId, string na, string pw)
-        {
-            this.KundenId = kId;
-            this.Name = na;
-            this.Password = pw;
-        }
+        //public Kunde(int kId, string na, string pw)
+        //{
+        //    this.KundenId = kId;
+        //    this.Name = na;
+        //    this.Password = pw;
+        //}
 
     }
 }
