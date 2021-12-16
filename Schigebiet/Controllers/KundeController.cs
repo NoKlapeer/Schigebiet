@@ -14,16 +14,13 @@ namespace Schigebiet.Controllers
             
             return View();
         }
-<<<<<<< Updated upstream
+
         
-=======
         [HttpGet]
->>>>>>> Stashed changes
         public IActionResult Anmeldung()
         {
             return View();
         }
-<<<<<<< Updated upstream
 
         [HttpGet]
         public IActionResult Registrierung() {
@@ -74,9 +71,6 @@ namespace Schigebiet.Controllers
             }
             
 
-            
-
-            
             if (k.Birthdate >= DateTime.Now)
             {
                 ModelState.AddModelError("Birthdate", "Das Geburtsdatum darf sich nicht in der Zukunft befinden!");
@@ -95,7 +89,6 @@ namespace Schigebiet.Controllers
             }
         }
 
-=======
         [HttpPost]
         public IActionResult Anmeldung(Kunde kundenDataFromForm)
         {
@@ -107,13 +100,21 @@ namespace Schigebiet.Controllers
             {
                 return View("_Message", new Message("Anmeldung", "Sie wurden erfolgreich angemeldet!"));
             }
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View("_Message", new Message("Anmeldung", "Falsche Login-Daten!"));
+                return View("_Message", new Message("Fehler", "Benutzername oder Password Falsch"));
             }
-            
+
+
             return View();
         }
->>>>>>> Stashed changes
+
+        //private void ValidateLoginData(Kunde k) {
+        //    if (((k.Name == null) || (k.Name.Trim().Length < 4)) || ((k.Password == null) || (k.Password.Length < 8)))
+        //    {
+        //        ModelState.AddModelError("Name", "Fehler");
+        //    }
+        //}
+
     }
 }
