@@ -14,11 +14,16 @@ namespace Schigebiet.Controllers
             
             return View();
         }
+<<<<<<< Updated upstream
         
+=======
+        [HttpGet]
+>>>>>>> Stashed changes
         public IActionResult Anmeldung()
         {
             return View();
         }
+<<<<<<< Updated upstream
 
         [HttpGet]
         public IActionResult Registrierung() {
@@ -90,5 +95,25 @@ namespace Schigebiet.Controllers
             }
         }
 
+=======
+        [HttpPost]
+        public IActionResult Anmeldung(Kunde kundenDataFromForm)
+        {
+            if (kundenDataFromForm == null)
+            {
+                return RedirectToAction("Anmeldung");
+            }
+            if (ModelState.IsValid)
+            {
+                return View("_Message", new Message("Anmeldung", "Sie wurden erfolgreich angemeldet!"));
+            }
+            if(!ModelState.IsValid)
+            {
+                return View("_Message", new Message("Anmeldung", "Falsche Login-Daten!"));
+            }
+            
+            return View();
+        }
+>>>>>>> Stashed changes
     }
 }
