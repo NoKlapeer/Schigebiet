@@ -53,8 +53,11 @@ namespace Schigebiet.Controllers
 
         private void ValidateRegistrationData(Kunde k) {
 
-            Boolean Kleinbuchstabe = false;
-            Boolean Großbuchstabe = false;
+            Boolean keinKleinbuchstabe = false;
+            Boolean keinGroßbuchstabe = false;
+
+            keinKleinbuchstabe = k.Password.ToUpper().Equals(k.Password);
+            keinGroßbuchstabe = k.Password.ToLower().Equals(k.Password);
 
             if (k == null)
             {
@@ -74,12 +77,17 @@ namespace Schigebiet.Controllers
             }
 
 
-
-
-            if ((k.Password == null) || (k.Password.Length < 8))
+            if ((keinKleinbuchstabe) || (keinGroßbuchstabe))
             {
-                ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen lang sein");
+                ModelState.AddModelError("Password", "Das Passwort muss Groß- und Kleinbuchstaben enthalten");
             }
+
+
+           if (!(k.Password.Contains("0") || k.Password.Contains("1") || k.Password.Contains("2")|| k.Password.Contains("3")|| k.Password.Contains("4")|| k.Password.Contains("5")|| k.Password.Contains("6")|| k.Password.Contains("7")|| k.Password.Contains("8")|| k.Password.Contains("9")))
+           {
+                ModelState.AddModelError("Password", "Das Passwort muss mindestens eine Zahl enthalten");
+           }
+       
 
 
             if (k.Birthdate >= DateTime.Now)
