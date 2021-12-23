@@ -52,7 +52,10 @@ namespace Schigebiet.Controllers
         }
 
         private void ValidateRegistrationData(Kunde k) {
-            
+
+            Boolean Kleinbuchstabe = false;
+            Boolean Großbuchstabe = false;
+
             if (k == null)
             {
                 return;
@@ -69,23 +72,25 @@ namespace Schigebiet.Controllers
             {
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen lang sein");
             }
-            
+
+
+
+
+            if ((k.Password == null) || (k.Password.Length < 8))
+            {
+                ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen lang sein");
+            }
+
 
             if (k.Birthdate >= DateTime.Now)
             {
                 ModelState.AddModelError("Birthdate", "Das Geburtsdatum darf sich nicht in der Zukunft befinden!");
             }
 
-            
-            if (!k.EMail.Contains("@"))
+
+            if ((!k.EMail.Contains("@"))||(k.EMail == null))
             {
                 ModelState.AddModelError("EMail", "Die EMail sollte in dem EMail-Format (bsp.: maxmustermann@abc.com)");
-            }
-
-            
-            if(k.Geschlecht == null)
-            {
-
             }
         }
 
