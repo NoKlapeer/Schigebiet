@@ -29,7 +29,7 @@ namespace Schigebiet.Models
         public DateTime Birthdate { get; set; }
         
         public string EMail { get; set; }
-        public string Geschlecht { get; set; }
+        public Geschlecht Geschlecht { get; set; }
 
         //public Kunde(int kId, string na, string pw)
         //{

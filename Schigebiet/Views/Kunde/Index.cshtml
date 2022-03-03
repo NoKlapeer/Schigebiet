@@ -1,5 +1,5 @@
 ﻿
-@model Schigebiet.Models.Kunde
+@model List<Schigebiet.Models.Kunde>
 
 
 @{
@@ -11,30 +11,82 @@
 <br />
 <div>
     <p>
-    Sie können ihr Ticket sofort bei uns in dem Abteil Ticket kaufen!<br />
-    Falls sie ihr Ticket verloren haben, ist das kein Problem - es geht nur der Pfand verloren.
+        Sie können ihr Ticket sofort bei uns in dem Abteil Ticket kaufen!<br />
+        Falls sie ihr Ticket verloren haben, ist das kein Problem - es geht nur der Pfand verloren.
     </p>
     <p>In dem rießigen Schigebiet sind überall Mitarbeiter und Liftwarte die ihnen jederzeit zur Verfügung stehen - GRATIS!</p>
-    
-    
-    </div>
 
 
+</div>
 
+
+@if ((Model == null) || (Model.Count < 1))
+{
+    <p>
+        Keine Benutzer in der Tabelle vorhanden!
+    </p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <td colspan="7">Benutzer</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>BenutzerId</th>
+                <th>Benutzername</th>
+                <th>Geburtsdatum</th>
+                <th>EMail</th>
+                <th>Geschlecht</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (Kunde k in Model)
+            {
+                <tr>
+                    <td>@k.KundenId</td>
+                    <td>@k.Name</td>
+                    <td>@k.Birthdate.ToLongDateString()</td>
+                    <td>@k.EMail</td>
+                    <td>@k.Geschlecht</td>
+                    <td>
+                        <form action="/kunde/delete/@k.KundenId" method="get">
+                            <input type="submit" value="löschen" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/kunde/update/@k.KundenId" method="get">
+                            <input type="submit" value="ändern" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7">zur Bearbeitung der User</td>
+            </tr>
+        </tfoot>
+    </table>
+
+}
 @*<div>
-    
-    @if (Model != null)
-    {
-        <p>
-            @Model.KundenId<br />
-            @Model.Name<br />
-            @Model.Password
-        </p>
-    }
-    else
-    {
-        <p>
-            keine Userdaten vorhanden!
-        </p>
-    }
-</div>*@
+
+        @if (Model != null)
+        {
+            <p>
+                @Model.KundenId<br />
+                @Model.Name<br />
+                @Model.Password
+            </p>
+        }
+        else
+        {
+            <p>
+                keine Userdaten vorhanden!
+            </p>
+        }
+    </div>*@
