@@ -7,6 +7,6 @@ namespace Schigebiet.Models
 {
     public enum TicketArt
     {
-        KindTag, KindWoche, KindSaison, ErwTag, ErwWoche, ErwSaison, notSpecified
+        KindTag, Kind4, JugTag, Jug4, ErwTag, Erw4, notSpecified
     }
 }
