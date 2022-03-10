@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Schigebiet.Models.DB
 {
-    interface IRepositoryKunde
+    interface IRepositoryKundeDB
     {
         void Connect();
 
@@ -17,6 +17,9 @@ namespace Schigebiet.Models.DB
 
         bool Insert(Kunde kunde);
 
+        Kunde GetKunde(int userId);
+
+        List<Kunde> GetAllKunden();
 
         bool ChangeUserData(int userId);
 

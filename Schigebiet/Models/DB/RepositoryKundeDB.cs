@@ -8,7 +8,7 @@ using System.Data.Common;
 
 namespace Schigebiet.Models.DB
 {
-    public class RepositoryKundeDB
+    public class RepositoryKundeDB : IRepositoryKundeDB
     {
         private string _connectionString = "Server=localhost;database=schidb;user=root;password=";
         private DbConnection _conn;
@@ -116,7 +116,7 @@ namespace Schigebiet.Models.DB
             {
 
                 DbCommand cmdAllUsers = this._conn.CreateCommand();
-                cmdAllUsers.CommandText = "select * from users";
+                cmdAllUsers.CommandText = "select * from kunden";
 
                 using (DbDataReader reader = cmdAllUsers.ExecuteReader())
                 {
@@ -125,12 +125,12 @@ namespace Schigebiet.Models.DB
                     {
                         kunden.Add(new Kunde()
                         {
-                            KundenId = Convert.ToInt32(reader["user_id"]),
-                            Name = Convert.ToString(reader["username"]),
+                            KundenId = Convert.ToInt32(reader["k_id"]),
+                            Name = Convert.ToString(reader["name"]),
                             Password = Convert.ToString(reader["password"]),
-                            Birthdate = Convert.ToDateTime(reader["birthdate"]),
                             EMail = Convert.ToString(reader["email"]),
-                            Geschlecht = (Geschlecht)Convert.ToInt32(reader["gender"])
+                            Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                            Geschlecht = (Geschlecht)Convert.ToInt32(reader["geschlecht"])
                         });
                     }
 
@@ -146,7 +146,7 @@ namespace Schigebiet.Models.DB
             if (this._conn?.State == System.Data.ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "select * from users where user_id = @user_id";
+                cmd.CommandText = "select * from kunden where _id = @user_id";
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -173,10 +173,10 @@ namespace Schigebiet.Models.DB
             if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmdInsert = this._conn.CreateCommand();
-                cmdInsert.CommandText = "insert into users values(null, @username, sha2(@password, 512), @mail, @bDate, @gender)";
+                cmdInsert.CommandText = "insert into kunden values(null, @name, sha2(@password, 512), @mail, @bDate, @gender)";
 
                 DbParameter paramUN = cmdInsert.CreateParameter();
-                paramUN.ParameterName = "username";
+                paramUN.ParameterName = "name";
                 paramUN.DbType = DbType.String;
                 paramUN.Value = kunde.Name;
 
@@ -214,6 +214,11 @@ namespace Schigebiet.Models.DB
         public bool Login(string username, string password)
         {
             throw new System.NotImplementedException();
+        }
+
+        public bool ChangeUserData(int userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

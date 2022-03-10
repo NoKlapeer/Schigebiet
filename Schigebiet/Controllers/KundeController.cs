@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Schigebiet.Models;
+using Schigebiet.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,10 +11,26 @@ namespace Schigebiet.Controllers
 {
     public class KundeController : Controller
     {
+
+        private IRepositoryKundeDB rep = new RepositoryKundeDB();
+
         public IActionResult Index()
         {
-            
-            return View();
+            try
+            {
+                rep.Connect();
+                return View(rep.GetAllKunden());
+            }
+            catch (DbException)
+            {
+                return View("_Message", new Message("Datenbankfehler",
+                                "Kunden wurden nicht geladen!",
+                                "Versuchen Sie es später erneut!"));
+            }
+            finally
+            {
+                rep.Disconnect();
+            }
         }
 
         
@@ -28,27 +46,49 @@ namespace Schigebiet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registrierung(Kunde userDataFromForm) {
+        public IActionResult Registrierung(Kunde kundenDataFromForm) {
           
-            if (userDataFromForm == null)
+            if (kundenDataFromForm == null)
             {
                 
                 return RedirectToAction("Registrierung");
             }
 
            
-            ValidateRegistrationData(userDataFromForm);
+            ValidateRegistrationData(kundenDataFromForm);
 
             
             if (ModelState.IsValid)
             {
-                return View("_Message", new Message("Registrierung", "Ihre Daten wurden erfolgreich abgepspeichert"));
+                try
+                {
+                    rep.Connect();
+                    if (rep.Insert(kundenDataFromForm))
+                    {
+                        return View("_Message",
+                                new Message("Registrierung", "Daten gespeichert!"));
+                    }
+                    else
+                    {
+                        return View("_Message",
+                                new Message("Registrierung", "Daten NICHT gespeichert!",
+                                            "Bitte versuchen Sie es später erneut!"));
+                    }
+                }
+                // Basisklasse der Datenbank-Exceptions
+                catch (DbException e)
+                {
+                    return View("_Message",
+                                new Message("Registrierung", "Datenbankfehler!",
+                                            "Bitte versuchen Sie es später erneut!"));
+                }
+                finally
+                {
+                    rep.Disconnect();
+                }
             }
 
-
-
-            
-            return View(userDataFromForm);
+            return View(kundenDataFromForm);
         }
 
         private void ValidateRegistrationData(Kunde k) {
