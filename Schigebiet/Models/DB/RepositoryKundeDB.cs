@@ -39,10 +39,10 @@ namespace Schigebiet.Models.DB
             if (this._conn?.State == System.Data.ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "update users set username = @username, password = sha2(@password, 512), " +
-                    "email = @email, birthdate = @birthdate, gender = @gender where user_id = @user_id";
+                cmd.CommandText = "update users set username = @name, password = sha2(@password, 512), " +
+                    "email = @email, birthdate = @birthdate, gender = @gender where k_id = @kundenId";
                 DbParameter paramUN = cmd.CreateParameter();
-                paramUN.ParameterName = "username";
+                paramUN.ParameterName = "name";
                 paramUN.DbType = System.Data.DbType.String;
                 paramUN.Value = newKundenData.Name;
 
@@ -67,7 +67,7 @@ namespace Schigebiet.Models.DB
                 paramGender.Value = newKundenData.Geschlecht;
 
                 DbParameter paramID = cmd.CreateParameter();
-                paramGender.ParameterName = "user_id";
+                paramGender.ParameterName = "kundenId";
                 paramGender.DbType = System.Data.DbType.Int32;
                 paramGender.Value = newKundenData.KundenId;
 
@@ -213,7 +213,43 @@ namespace Schigebiet.Models.DB
         }
         public bool Login(string name, string password)
         {
-            throw new System.NotImplementedException();
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                DbCommand cmdInsert = this._conn.CreateCommand();
+
+                cmdInsert.CommandText = "select email from users where email = @email and password = sha2(@password, 512)";
+                //leeres Parameter Object erzeugen
+                DbParameter paramUN = cmdInsert.CreateParameter();
+                // hier denn oben gewählten Parameter name verwenden
+                paramUN.ParameterName = "email";
+                paramUN.DbType = DbType.String;
+                paramUN.Value = name;
+
+                DbParameter paramPWD = cmdInsert.CreateParameter();
+                // hier denn oben gewählten Parameter name verwenden
+                paramPWD.ParameterName = "password";
+                paramPWD.DbType = DbType.String;
+                paramPWD.Value = password;
+
+
+                //Paraneter mit unserem Command angeben
+                cmdInsert.Parameters.Add(paramUN);
+                cmdInsert.Parameters.Add(paramPWD);
+                using (DbDataReader reader = cmdInsert.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string Username = Convert.ToString(reader["email"]);
+                        if (Username.Equals(name))
+                        {
+                            return true;
+                        }
+
+
+                    }
+                }
+            }
+            return false;
         }
     }
 }
