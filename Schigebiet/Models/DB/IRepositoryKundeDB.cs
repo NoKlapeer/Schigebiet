@@ -21,7 +21,7 @@ namespace Schigebiet.Models.DB
 
         List<Kunde> GetAllKunden();
 
-        bool ChangeUserData(int userId);
+        bool ChangeUserData(int userId, Kunde newKundenData);
 
 
 

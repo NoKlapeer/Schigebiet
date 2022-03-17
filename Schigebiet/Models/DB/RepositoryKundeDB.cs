@@ -91,7 +91,7 @@ namespace Schigebiet.Models.DB
 
                 DbCommand cmdDelete = this._conn.CreateCommand();
 
-                cmdDelete.CommandText = "delete from users where user_id = @userId";
+                cmdDelete.CommandText = "delete from users where k_id = @kundenId";
 
 
                 DbParameter paramUI = cmdDelete.CreateParameter();
@@ -141,20 +141,20 @@ namespace Schigebiet.Models.DB
 
             return kunden;
         }
-        public Kunde GetKunde(int userId)
+        public Kunde GetKunde(int kundenId)
         {
             if (this._conn?.State == System.Data.ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "select * from kunden where _id = @user_id";
+                cmd.CommandText = "select * from kunden where k_id = @kundenId";
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
                         return new Kunde()
                         {
-                            KundenId = userId,
-                            Name = Convert.ToString(reader["username"]),
+                            KundenId = kundenId,
+                            Name = Convert.ToString(reader["name"]),
                             Password = Convert.ToString(reader["password"]),
                             Birthdate = Convert.ToDateTime(reader["birthdate"]),
                             EMail = Convert.ToString(reader["email"]),
@@ -211,14 +211,9 @@ namespace Schigebiet.Models.DB
 
             return false;
         }
-        public bool Login(string username, string password)
+        public bool Login(string name, string password)
         {
             throw new System.NotImplementedException();
-        }
-
-        public bool ChangeUserData(int userId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

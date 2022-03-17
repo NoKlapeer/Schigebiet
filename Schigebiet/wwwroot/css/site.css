@@ -6,7 +6,6 @@
 
 content {
     min-width: 340px;
-    float: left;
     min-height: 560px;
     padding: 20px 10px;
 }
@@ -91,6 +90,10 @@ td {
 
 .rounded-circle:hover {
     transform: scale(0.8);
+}
+
+.regan {
+    text-align: center;
 }
 
 
