@@ -83,7 +83,7 @@ namespace Schigebiet.Models.DB
             }
             return false;
         }
-        public bool Delete(int userId)
+        public bool Delete(int kundenId)
         {
 
             if (this._conn?.State == ConnectionState.Open)
@@ -96,9 +96,9 @@ namespace Schigebiet.Models.DB
 
                 DbParameter paramUI = cmdDelete.CreateParameter();
 
-                paramUI.ParameterName = "userId";
+                paramUI.ParameterName = "kundenId";
                 paramUI.DbType = DbType.String;
-                paramUI.Value = userId;
+                paramUI.Value = kundenId;
 
                 cmdDelete.Parameters.Add(paramUI);
 
@@ -218,21 +218,16 @@ namespace Schigebiet.Models.DB
                 DbCommand cmdInsert = this._conn.CreateCommand();
 
                 cmdInsert.CommandText = "select email from users where email = @email and password = sha2(@password, 512)";
-                //leeres Parameter Object erzeugen
                 DbParameter paramUN = cmdInsert.CreateParameter();
-                // hier denn oben gewählten Parameter name verwenden
                 paramUN.ParameterName = "email";
                 paramUN.DbType = DbType.String;
                 paramUN.Value = name;
 
                 DbParameter paramPWD = cmdInsert.CreateParameter();
-                // hier denn oben gewählten Parameter name verwenden
                 paramPWD.ParameterName = "password";
                 paramPWD.DbType = DbType.String;
                 paramPWD.Value = password;
 
-
-                //Paraneter mit unserem Command angeben
                 cmdInsert.Parameters.Add(paramUN);
                 cmdInsert.Parameters.Add(paramPWD);
                 using (DbDataReader reader = cmdInsert.ExecuteReader())
