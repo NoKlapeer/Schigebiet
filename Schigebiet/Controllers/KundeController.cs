@@ -14,12 +14,12 @@ namespace Schigebiet.Controllers
 
         private IRepositoryKundeDB rep = new RepositoryKundeDB();
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
                 rep.Connect();
-                return View(rep.GetAllKunden());
+                return View(await rep.GetAllKundenAsync());
             }
             catch (DbException)
             {
@@ -37,6 +37,58 @@ namespace Schigebiet.Controllers
         [HttpGet]
         public IActionResult Anmeldung()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Anmeldung(Kunde kundenDataFromForm)
+        {
+            if (kundenDataFromForm == null)
+            {
+                return RedirectToAction("Anmeldung");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    rep.Connect();
+                    if (rep.Login(kundenDataFromForm.Name, kundenDataFromForm.Password))
+                    {
+                        return RedirectToAction("Index","Home");
+                    }
+                    else
+                    {
+                        return View("_Message", new Message("Anmeldung", "Anmeldedaten falsch!"));
+                    }
+                }
+                catch (DbException e)
+                {
+                    return View("_Message",
+                                new Message("Anmeldung", "Datenbankfehler!",
+                                            "Bitte versuchen Sie es später erneut!"));
+                }
+                finally
+                {
+                    rep.Disconnect();
+                }
+            }
+
+
+            return View(kundenDataFromForm);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            // TODO: User mit der ID id löschen
+
+            return View();
+        }
+
+        public IActionResult Update(int id)
+        {
+            // TODO: User mit der ID id ändern
+
             return View();
         }
 
@@ -75,7 +127,6 @@ namespace Schigebiet.Controllers
                                             "Bitte versuchen Sie es später erneut!"));
                     }
                 }
-                // Basisklasse der Datenbank-Exceptions
                 catch (DbException e)
                 {
                     return View("_Message",
@@ -142,25 +193,7 @@ namespace Schigebiet.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Anmeldung(Kunde kundenDataFromForm)
-        {
-            if (kundenDataFromForm == null)
-            {
-                return RedirectToAction("Anmeldung");
-            }
-            if (ModelState.IsValid)
-            {
-                return View("_Message", new Message("Anmeldung", "Sie wurden erfolgreich angemeldet!"));
-            }
-            if (!ModelState.IsValid)
-            {
-                return View("_Message", new Message("Fehler", "Benutzername oder Password Falsch"));
-            }
-
-
-            return View();
-        }
+        
 
         //private void ValidateLoginData(Kunde k) {
         //    if (((k.Name == null) || (k.Name.Trim().Length < 4)) || ((k.Password == null) || (k.Password.Length < 8)))

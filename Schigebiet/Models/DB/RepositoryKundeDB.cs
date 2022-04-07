@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-
+using System.Threading.Tasks;
 
 namespace Schigebiet.Models.DB
 {
@@ -36,39 +36,39 @@ namespace Schigebiet.Models.DB
 
         public bool ChangeUserData(int userId, Kunde newKundenData)
         {
-            if (this._conn?.State == System.Data.ConnectionState.Open)
+            if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
                 cmd.CommandText = "update users set username = @name, password = sha2(@password, 512), " +
                     "email = @email, birthdate = @birthdate, gender = @gender where k_id = @kundenId";
                 DbParameter paramUN = cmd.CreateParameter();
                 paramUN.ParameterName = "name";
-                paramUN.DbType = System.Data.DbType.String;
+                paramUN.DbType = DbType.String;
                 paramUN.Value = newKundenData.Name;
 
                 DbParameter paramPW = cmd.CreateParameter();
                 paramPW.ParameterName = "password";
-                paramPW.DbType = System.Data.DbType.String;
+                paramPW.DbType = DbType.String;
                 paramPW.Value = newKundenData.Password;
 
                 DbParameter paramEmail = cmd.CreateParameter();
                 paramEmail.ParameterName = "email";
-                paramEmail.DbType = System.Data.DbType.String;
+                paramEmail.DbType = DbType.String;
                 paramEmail.Value = newKundenData.EMail;
 
                 DbParameter paramBD = cmd.CreateParameter();
                 paramBD.ParameterName = "birthdate";
-                paramBD.DbType = System.Data.DbType.Date;
+                paramBD.DbType = DbType.Date;
                 paramBD.Value = newKundenData.Birthdate;
 
                 DbParameter paramGender = cmd.CreateParameter();
                 paramGender.ParameterName = "gender";
-                paramGender.DbType = System.Data.DbType.Int32;
+                paramGender.DbType = DbType.Int32;
                 paramGender.Value = newKundenData.Geschlecht;
 
                 DbParameter paramID = cmd.CreateParameter();
                 paramGender.ParameterName = "kundenId";
-                paramGender.DbType = System.Data.DbType.Int32;
+                paramGender.DbType = DbType.Int32;
                 paramGender.Value = newKundenData.KundenId;
 
 
@@ -107,7 +107,7 @@ namespace Schigebiet.Models.DB
 
             return false;
         }
-        public List<Kunde> GetAllKunden()
+        public async Task<List<Kunde>> GetAllKundenAsync()
         {
 
             List<Kunde> kunden = new List<Kunde>();
@@ -118,10 +118,10 @@ namespace Schigebiet.Models.DB
                 DbCommand cmdAllUsers = this._conn.CreateCommand();
                 cmdAllUsers.CommandText = "select * from kunden";
 
-                using (DbDataReader reader = cmdAllUsers.ExecuteReader())
+                using (DbDataReader reader = await cmdAllUsers.ExecuteReaderAsync())
                 {
 
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         kunden.Add(new Kunde()
                         {
@@ -143,7 +143,7 @@ namespace Schigebiet.Models.DB
         }
         public Kunde GetKunde(int kundenId)
         {
-            if (this._conn?.State == System.Data.ConnectionState.Open)
+            if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
                 cmd.CommandText = "select * from kunden where k_id = @kundenId";
@@ -217,9 +217,9 @@ namespace Schigebiet.Models.DB
             {
                 DbCommand cmdInsert = this._conn.CreateCommand();
 
-                cmdInsert.CommandText = "select email from users where email = @email and password = sha2(@password, 512)";
+                cmdInsert.CommandText = "select name from kunden where name = @name and password = sha2(@password, 512)";
                 DbParameter paramUN = cmdInsert.CreateParameter();
-                paramUN.ParameterName = "email";
+                paramUN.ParameterName = "name";
                 paramUN.DbType = DbType.String;
                 paramUN.Value = name;
 
@@ -234,8 +234,8 @@ namespace Schigebiet.Models.DB
                 {
                     if (reader.Read())
                     {
-                        string Username = Convert.ToString(reader["email"]);
-                        if (Username.Equals(name))
+                        string Kundenname = Convert.ToString(reader["name"]);
+                        if (Kundenname.Equals(name))
                         {
                             return true;
                         }

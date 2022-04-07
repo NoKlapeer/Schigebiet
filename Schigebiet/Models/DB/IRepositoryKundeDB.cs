@@ -19,9 +19,10 @@ namespace Schigebiet.Models.DB
 
         Kunde GetKunde(int userId);
 
-        List<Kunde> GetAllKunden();
+        Task<List<Kunde>> GetAllKundenAsync();
 
         bool ChangeUserData(int userId, Kunde newKundenData);
+        bool Login(string name, string password);
 
 
 
