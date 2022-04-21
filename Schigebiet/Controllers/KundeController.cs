@@ -96,14 +96,14 @@ namespace Schigebiet.Controllers
         }
 
 
-        public IActionResult Abmelden()
+       /* public IActionResult Abmelden()
         {
             if (angemeldet) {
                 angemeldet = false;
                 return RedirectToAction("Anmeldung");
             }
             return View("home");
-        }
+        }*/
 
         [HttpGet]
         public IActionResult Registrierung() {
