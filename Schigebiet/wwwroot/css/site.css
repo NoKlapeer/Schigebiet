@@ -30,7 +30,7 @@ h1 {
     padding-bottom: 40px;
 }
 
-table {
+/*table {
     table-layout: fixed;
     border: 1px solid midnightblue;
     background-color: lightblue
@@ -44,7 +44,7 @@ td {
     padding-left: 5px;
     padding-right: 5px;
 }
-
+*/
 .navbar .navbar-nav .nav-link:hover {
     color: #000000;
 }
@@ -137,3 +137,30 @@ input[type=button], input[type=submit], input[type=reset] {
     margin: 4px 2px;
     cursor: pointer;
 }
+
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: lightblue;
+        color: white;
+    }

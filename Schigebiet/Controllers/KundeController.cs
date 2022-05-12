@@ -96,14 +96,22 @@ namespace Schigebiet.Controllers
         }
 
 
-       /* public IActionResult Abmelden()
+        /* public IActionResult Abmelden()
+         {
+             if (angemeldet) {
+                 angemeldet = false;
+                 return RedirectToAction("Anmeldung");
+             }
+             return View("home");
+         }*/
+
+        public bool AskAdmin(string email)
         {
-            if (angemeldet) {
-                angemeldet = false;
-                return RedirectToAction("Anmeldung");
+            if(email == "admin@gmail.com"){
+                return true;
             }
-            return View("home");
-        }*/
+            return false;
+        }
 
         [HttpGet]
         public IActionResult Registrierung() {

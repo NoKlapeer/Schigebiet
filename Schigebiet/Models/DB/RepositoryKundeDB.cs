@@ -234,11 +234,11 @@ namespace Schigebiet.Models.DB
                 {
                     if (reader.Read())
                     {
-                        string Kundenname = Convert.ToString(reader["name"]);
-                        if (Kundenname.Equals(name))
-                        {
+                        // string Kundenname = Convert.ToString(reader["name"]);
+                        //if (Kundenname.Equals(name))
+                        //{
                             return true;
-                        }
+                       // }
 
 
                     }
