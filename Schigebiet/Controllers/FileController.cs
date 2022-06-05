@@ -22,7 +22,7 @@ namespace Schigebiet.Controllers
         public IActionResult Index()
         {
             //Fetch all files in the Folder (Directory).
-            string[] filePaths = Directory.GetFiles(Path.Combine(/*this.Environment.WebRootPath,*/ "~/multimedia/pictures/funparkbild.jpg"));
+            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "multimedia/pictures/"));
 
             //Copy File names to Model collection.
             List<File> files = new List<File>();
@@ -37,13 +37,14 @@ namespace Schigebiet.Controllers
         public FileResult DownloadFile(string fileName)
         {
             //Build the File Path.
-            string path = Path.Combine(this.Environment.WebRootPath, "Files/") + fileName;
+            string path = Path.Combine(this.Environment.WebRootPath, "multimedia/pictures/") + fileName;
 
             //Read the File data into Byte Array.
             byte[] bytes = System.IO.File.ReadAllBytes(path);
 
             //Send the File to Download.
             return File(bytes, "application/octet-stream", fileName);
+
         }
     }
 }
