@@ -35,7 +35,7 @@ namespace Schigebiet.Controllers
             }
         }
 
-
+       
         [HttpGet]
         public IActionResult Anmeldung()
         {
@@ -57,7 +57,8 @@ namespace Schigebiet.Controllers
                     rep.Connect();
                     if (rep.Login(kundenDataFromForm.Name, kundenDataFromForm.Password))
                     {
-                        return RedirectToAction("Index", "Home");
+                        RepositoryKundeDB.logged = true;
+                        return RedirectToAction("Index","Home");
                     }
                     else
                     {
@@ -76,7 +77,7 @@ namespace Schigebiet.Controllers
                 }
             }
 
-
+            
             return View(kundenDataFromForm);
         }
 
@@ -96,54 +97,36 @@ namespace Schigebiet.Controllers
             return View();
         }
 
-        public IActionResult checkEMail(string email)
-        {
-            try
-            {
-                rep.Connect();
-                if (rep.AskEmail(email))
-                {
-                    return new JsonResult(true);
-                }
-                else
-                {
-                    return new JsonResult(false);
-                }
-            }
-            catch (DbException e)
-            {
-                return View("_Message",
-                                new Message("Anmeldung", "Datenbankfehler!",
-                                            "Bitte versuchen Sie es später erneut!"));
-            }
-            finally
-            {
-                rep.Disconnect();
 
+        public IActionResult Abmelden()
+         {
+             if (RepositoryKundeDB.logged) {
+                 RepositoryKundeDB.logged = false;
+                 return RedirectToAction("Anmeldung");
+             } else
+            {
+                return View("_Message", new Message("Abmeldung", "Sie sind nicht angemeldet!"));
             }
-        }
-
+         }
 
 
         [HttpGet]
-        public IActionResult Registrierung()
-        {
+        public IActionResult Registrierung() {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Registrierung(Kunde kundenDataFromForm)
-        {
-
+        public IActionResult Registrierung(Kunde kundenDataFromForm) {
+          
             if (kundenDataFromForm == null)
             {
                 return RedirectToAction("Registrierung");
             }
 
-
+           
             ValidateRegistrationData(kundenDataFromForm);
 
-
+            
             if (ModelState.IsValid)
             {
                 try
@@ -176,8 +159,7 @@ namespace Schigebiet.Controllers
             return View(kundenDataFromForm);
         }
 
-        private void ValidateRegistrationData(Kunde k)
-        {
+        private void ValidateRegistrationData(Kunde k) {
 
             Boolean keinKleinbuchstabe = false;
             Boolean keinGroßbuchstabe = false;
@@ -190,13 +172,13 @@ namespace Schigebiet.Controllers
                 return;
             }
 
-
+            
             if ((k.Name == null) || (k.Name.Trim().Length < 4))
             {
                 ModelState.AddModelError("Name", "Der Benutzername muss mindestens 4 Zeichen lang sein");
             }
 
-
+            
             if ((k.Password == null) || (k.Password.Length < 8))
             {
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen lang sein");
@@ -209,11 +191,11 @@ namespace Schigebiet.Controllers
             }
 
 
-            if (!(k.Password.Contains("0") || k.Password.Contains("1") || k.Password.Contains("2") || k.Password.Contains("3") || k.Password.Contains("4") || k.Password.Contains("5") || k.Password.Contains("6") || k.Password.Contains("7") || k.Password.Contains("8") || k.Password.Contains("9")))
-            {
+           if (!(k.Password.Contains("0") || k.Password.Contains("1") || k.Password.Contains("2")|| k.Password.Contains("3")|| k.Password.Contains("4")|| k.Password.Contains("5")|| k.Password.Contains("6")|| k.Password.Contains("7")|| k.Password.Contains("8")|| k.Password.Contains("9")))
+           {
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens eine Zahl enthalten");
-            }
-
+           }
+       
 
 
             if (k.Birthdate >= DateTime.Now)
@@ -222,13 +204,13 @@ namespace Schigebiet.Controllers
             }
 
 
-            if ((!k.EMail.Contains("@")) || (k.EMail == null))
+            if ((!k.EMail.Contains("@"))||(k.EMail == null))
             {
                 ModelState.AddModelError("EMail", "Die EMail sollte in dem EMail-Format (bsp.: maxmustermann@abc.com)");
             }
         }
 
-
+        
 
         //private void ValidateLoginData(Kunde k) {
         //    if (((k.Name == null) || (k.Name.Trim().Length < 4)) || ((k.Password == null) || (k.Password.Length < 8)))
