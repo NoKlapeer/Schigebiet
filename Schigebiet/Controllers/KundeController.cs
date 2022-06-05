@@ -96,6 +96,20 @@ namespace Schigebiet.Controllers
             return View();
         }
 
+        public IActionResult Abmelden()
+        {
+            if (RepositoryKundeDB.logged)
+            {
+                RepositoryKundeDB.logged = false;
+                return RedirectToAction("Anmeldung");
+            }
+            else
+            {
+                return View("_Message", new Message("Abmeldung", "Sie sind nicht angemeldet!"));
+            }
+        }
+
+
         public IActionResult checkEMail(string email)
         {
             try

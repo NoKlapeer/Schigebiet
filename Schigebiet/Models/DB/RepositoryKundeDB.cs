@@ -12,6 +12,8 @@ namespace Schigebiet.Models.DB
     {
         private string _connectionString = "Server=localhost;database=schidb;user=root;password=";
         private DbConnection _conn;
+        public static bool logged;
+
 
 
         public void Connect()
@@ -242,6 +244,7 @@ namespace Schigebiet.Models.DB
                         // string Kundenname = Convert.ToString(reader["name"]);
                         //if (Kundenname.Equals(name))
                         //{
+                        logged = true;
                         return true;
                         // }
 
