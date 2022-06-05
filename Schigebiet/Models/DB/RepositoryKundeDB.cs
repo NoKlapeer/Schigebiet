@@ -12,7 +12,6 @@ namespace Schigebiet.Models.DB
     {
         private string _connectionString = "Server=localhost;database=schidb;user=root;password=";
         private DbConnection _conn;
-        public static bool logged;
 
 
         public void Connect()
@@ -135,8 +134,8 @@ namespace Schigebiet.Models.DB
                         });
                     }
 
-                }   
-                    
+                }
+
 
             }
 
@@ -167,6 +166,11 @@ namespace Schigebiet.Models.DB
             return new Kunde();
 
         }
+
+
+
+
+
 
         public bool Insert(Kunde kunde)
         {
@@ -238,11 +242,37 @@ namespace Schigebiet.Models.DB
                         // string Kundenname = Convert.ToString(reader["name"]);
                         //if (Kundenname.Equals(name))
                         //{
-                            logged = true;
-                            return true;
-                       // }
+                        return true;
+                        // }
 
 
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        public bool AskEmail(string email)
+        {
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                DbCommand cmd = this._conn.CreateCommand();
+                cmd.CommandText = "select * from kunden where email = @email";
+
+                DbParameter paramEM = cmd.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                cmd.Parameters.Add(paramEM);
+
+
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
                     }
                 }
             }
