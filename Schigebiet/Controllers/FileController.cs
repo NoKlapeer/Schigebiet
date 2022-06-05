@@ -22,7 +22,7 @@ namespace Schigebiet.Controllers
         public IActionResult Index()
         {
             //Fetch all files in the Folder (Directory).
-            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "Files/"));
+            string[] filePaths = Directory.GetFiles(Path.Combine(/*this.Environment.WebRootPath,*/ "~/multimedia/pictures/funparkbild.jpg"));
 
             //Copy File names to Model collection.
             List<File> files = new List<File>();
