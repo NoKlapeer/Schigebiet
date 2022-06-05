@@ -10,14 +10,14 @@
 <br />
 <br />
 @*<div>
-    <p>
-        Sie können ihr Ticket sofort bei uns in dem Abteil Ticket kaufen!<br />
-        Falls sie ihr Ticket verloren haben, ist das kein Problem - es geht nur der Pfand verloren.
-    </p>
-    <p>In dem rießigen Schigebiet sind überall Mitarbeiter und Liftwarte die ihnen jederzeit zur Verfügung stehen - GRATIS!</p>
+        <p>
+            Sie können ihr Ticket sofort bei uns in dem Abteil Ticket kaufen!<br />
+            Falls sie ihr Ticket verloren haben, ist das kein Problem - es geht nur der Pfand verloren.
+        </p>
+        <p>In dem rießigen Schigebiet sind überall Mitarbeiter und Liftwarte die ihnen jederzeit zur Verfügung stehen - GRATIS!</p>
 
 
-</div>*@
+    </div>*@
 
 
 @if ((Model == null) || (Model.Count < 1))
@@ -51,7 +51,7 @@ else
                     <td>@k.Name</td>
                     <td>@k.Birthdate.ToLongDateString()</td>
                     <td>@k.EMail</td>
-                    <td>@k.Geschlecht</td>
+                    <td>@k.Geschlecht</td> 
                     <td>
                         <form action="/kunde/delete/@k.KundenId" method="get">
                             <input type="submit" value="löschen" />

@@ -14,7 +14,7 @@ namespace Schigebiet.Controllers
 
         private IRepositoryKundeDB rep = new RepositoryKundeDB();
 
-        private bool angemeldet = false;
+
 
         public async Task<IActionResult> Index()
         {
@@ -35,7 +35,7 @@ namespace Schigebiet.Controllers
             }
         }
 
-        
+       
         [HttpGet]
         public IActionResult Anmeldung()
         {
@@ -57,7 +57,6 @@ namespace Schigebiet.Controllers
                     rep.Connect();
                     if (rep.Login(kundenDataFromForm.Name, kundenDataFromForm.Password))
                     {
-                        angemeldet = true;
                         return RedirectToAction("Index","Home");
                     }
                     else
@@ -80,6 +79,8 @@ namespace Schigebiet.Controllers
             
             return View(kundenDataFromForm);
         }
+
+
 
         public IActionResult Delete(int id)
         {
@@ -105,13 +106,6 @@ namespace Schigebiet.Controllers
              return View("home");
          }*/
 
-        public bool AskAdmin(string email)
-        {
-            if(email == "admin@gmail.com"){
-                return true;
-            }
-            return false;
-        }
 
         [HttpGet]
         public IActionResult Registrierung() {

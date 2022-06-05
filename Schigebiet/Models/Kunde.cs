@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Schigebiet.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Schigebiet.Models
     public class Kunde
     {
         private int kundenId;
+        private bool isAdmin;
 
 
         public int KundenId
@@ -30,6 +32,8 @@ namespace Schigebiet.Models
         
         public string EMail { get; set; }
         public Geschlecht Geschlecht { get; set; }
+
+       
 
         //public Kunde(int kId, string na, string pw)
         //{
