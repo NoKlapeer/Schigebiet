@@ -12,7 +12,6 @@ namespace Schigebiet.Models.DB
     {
         private string _connectionString = "Server=localhost;database=schidb;user=root;password=";
         private DbConnection _conn;
-        public static bool logged;
 
 
         public void Connect()
@@ -243,7 +242,6 @@ namespace Schigebiet.Models.DB
                         // string Kundenname = Convert.ToString(reader["name"]);
                         //if (Kundenname.Equals(name))
                         //{
-<<<<<<< Updated upstream
                         return true;
                         // }
 
@@ -261,11 +259,6 @@ namespace Schigebiet.Models.DB
             {
                 DbCommand cmd = this._conn.CreateCommand();
                 cmd.CommandText = "select * from kunden where email = @email";
-=======
-                            logged = true;
-                            return true;
-                       // }
->>>>>>> Stashed changes
 
                 DbParameter paramEM = cmd.CreateParameter();
                 paramEM.ParameterName = "email";
