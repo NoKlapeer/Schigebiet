@@ -134,8 +134,8 @@ namespace Schigebiet.Models.DB
                         });
                     }
 
-                }   
-                    
+                }
+
 
             }
 
@@ -166,6 +166,11 @@ namespace Schigebiet.Models.DB
             return new Kunde();
 
         }
+
+
+
+
+
 
         public bool Insert(Kunde kunde)
         {
@@ -237,10 +242,37 @@ namespace Schigebiet.Models.DB
                         // string Kundenname = Convert.ToString(reader["name"]);
                         //if (Kundenname.Equals(name))
                         //{
-                            return true;
-                       // }
+                        return true;
+                        // }
 
 
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        public bool AskEmail(string email)
+        {
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                DbCommand cmd = this._conn.CreateCommand();
+                cmd.CommandText = "select * from kunden where email = @email";
+
+                DbParameter paramEM = cmd.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                cmd.Parameters.Add(paramEM);
+
+
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
                     }
                 }
             }

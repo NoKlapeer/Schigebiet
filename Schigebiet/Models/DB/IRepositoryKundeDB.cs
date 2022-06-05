@@ -23,9 +23,6 @@ namespace Schigebiet.Models.DB
 
         bool ChangeUserData(int userId, Kunde newKundenData);
         bool Login(string name, string password);
-
-
-
-
+        bool AskEmail(string email);
     }
 }
