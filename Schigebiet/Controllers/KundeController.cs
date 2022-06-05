@@ -57,7 +57,12 @@ namespace Schigebiet.Controllers
                     rep.Connect();
                     if (rep.Login(kundenDataFromForm.Name, kundenDataFromForm.Password))
                     {
+<<<<<<< Updated upstream
                         return RedirectToAction("Index", "Home");
+=======
+                        RepositoryKundeDB.logged = true;
+                        return RedirectToAction("Index","Home");
+>>>>>>> Stashed changes
                     }
                     else
                     {
@@ -123,6 +128,19 @@ namespace Schigebiet.Controllers
             }
         }
 
+<<<<<<< Updated upstream
+=======
+        public IActionResult Abmelden()
+         {
+             if (RepositoryKundeDB.logged) {
+                 RepositoryKundeDB.logged = false;
+                 return RedirectToAction("Anmeldung");
+             } else
+            {
+                return View("_Message", new Message("Abmeldung", "Sie sind nicht angemeldet!"));
+            }
+         }
+>>>>>>> Stashed changes
 
 
         [HttpGet]
