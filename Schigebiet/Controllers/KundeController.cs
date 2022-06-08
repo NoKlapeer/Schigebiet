@@ -81,19 +81,72 @@ namespace Schigebiet.Controllers
         }
 
 
-
+        [HttpGet]
         public IActionResult Delete(int id)
         {
-            // TODO: User mit der ID id löschen
+            try
+            {
+                rep.Connect();
+                rep.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (DbException)
+            {
+                return View("_Message", new Message("Datenbankfehler!", "Der Benutzer konnte nicht gelöscht werden! Versuchen sie es später erneut."));
+            }
+            finally
+            {
+                rep.Disconnect();
+            }
+        }
 
+
+        [HttpGet]
+        public IActionResult Update()
+        {
             return View();
         }
 
-        public IActionResult Update(int id)
+        [HttpPost]
+        public IActionResult Update(Kunde k, int kundenid)
         {
-            // TODO: User mit der ID id ändern
+            
+            if (k == null)
+            {
+                return RedirectToAction("update");
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    rep.Connect();
+                    if (rep.ChangeKundenData(kundenid, k))
+                    {
+                        return View("_Message",
+                            new Message("Update", "Ihre Daten wurden erfolgreich geupdatet"));
+                    }
+                    else
+                    {
+                        return View("_Message",
+                            new Message("Update", "Ihre Daten konnten NICHT geupdatet werden!",
+                                        "Bitte versuchen Sie es später erneut!"));
+                    }
+                }
+                catch (DbException)
+                {
+                    return View("_Message",
+                        new Message("Update", "Datenbankfehler!",
+                                    "Bitte veruschen sie es später erneut!"));
 
-            return View();
+                }
+                finally
+                {
+                    rep.Disconnect();
+                }
+                //falls etwas falsch eingeg. wurde, wird das Reg-formular
+                // erneut aufgerufen - mit dne bereits eingegebnenen Daten.
+            }
+            return View(k);
         }
 
         public IActionResult Abmelden()
@@ -101,6 +154,7 @@ namespace Schigebiet.Controllers
             if (RepositoryKundeDB.logged)
             {
                 RepositoryKundeDB.logged = false;
+                RepositoryKundeDB.isAdmin = false;
                 return RedirectToAction("Anmeldung");
             }
             else
@@ -108,6 +162,9 @@ namespace Schigebiet.Controllers
                 return View("_Message", new Message("Abmeldung", "Sie sind nicht angemeldet!"));
             }
         }
+
+        
+
 
 
         public IActionResult checkEMail(string email)

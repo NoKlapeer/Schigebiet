@@ -1,5 +1,6 @@
 ﻿
 @model List<Schigebiet.Models.Kunde>
+@using Schigebiet.Models.DB; 
 
 
 @{
@@ -52,6 +53,9 @@ else
                     <td>@k.Birthdate.ToLongDateString()</td>
                     <td>@k.EMail</td>
                     <td>@k.Geschlecht</td> 
+
+                    @if (RepositoryKundeDB.isAdmin)
+                    {
                     <td>
                         <form action="/kunde/delete/@k.KundenId" method="get">
                             <input type="submit" value="löschen" />
@@ -62,6 +66,7 @@ else
                             <input type="submit" value="ändern" />
                         </form>
                     </td>
+                    }
                 </tr>
             }
         </tbody>

@@ -9,7 +9,6 @@ namespace Schigebiet.Models
     public class Kunde
     {
         private int kundenId;
-        private bool isAdmin;
 
 
         public int KundenId

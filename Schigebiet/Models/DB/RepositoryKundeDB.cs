@@ -13,6 +13,8 @@ namespace Schigebiet.Models.DB
         private string _connectionString = "Server=localhost;database=schidb;user=root;password=";
         private DbConnection _conn;
         public static bool logged;
+        public static bool isAdmin;
+
 
 
 
@@ -36,13 +38,13 @@ namespace Schigebiet.Models.DB
         }
 
 
-        public bool ChangeUserData(int userId, Kunde newKundenData)
+        public bool ChangeKundenData(int kundenid, Kunde newKundenData)
         {
             if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "update users set username = @name, password = sha2(@password, 512), " +
-                    "email = @email, birthdate = @birthdate, gender = @gender where k_id = @kundenId";
+                cmd.CommandText = "update kunden set name = @name, password = sha2(@password, 512), " +
+                    "email = @email, birthdate = @birthdate, geschlecht = @geschlecht where k_id = @kundenId;";
                 DbParameter paramUN = cmd.CreateParameter();
                 paramUN.ParameterName = "name";
                 paramUN.DbType = DbType.String;
@@ -64,14 +66,14 @@ namespace Schigebiet.Models.DB
                 paramBD.Value = newKundenData.Birthdate;
 
                 DbParameter paramGender = cmd.CreateParameter();
-                paramGender.ParameterName = "gender";
+                paramGender.ParameterName = "geschlecht";
                 paramGender.DbType = DbType.Int32;
                 paramGender.Value = newKundenData.Geschlecht;
 
                 DbParameter paramID = cmd.CreateParameter();
                 paramGender.ParameterName = "kundenId";
                 paramGender.DbType = DbType.Int32;
-                paramGender.Value = newKundenData.KundenId;
+                paramGender.Value = kundenid;
 
 
                 cmd.Parameters.Add(paramUN);
@@ -93,7 +95,7 @@ namespace Schigebiet.Models.DB
 
                 DbCommand cmdDelete = this._conn.CreateCommand();
 
-                cmdDelete.CommandText = "delete from users where k_id = @kundenId";
+                cmdDelete.CommandText = "delete from kunden where k_id = @kundenId";
 
 
                 DbParameter paramUI = cmdDelete.CreateParameter();
@@ -109,6 +111,10 @@ namespace Schigebiet.Models.DB
 
             return false;
         }
+
+
+
+
         public async Task<List<Kunde>> GetAllKundenAsync()
         {
 
@@ -219,6 +225,7 @@ namespace Schigebiet.Models.DB
             return false;
         }
         public bool Login(string name, string password)
+
         {
             if (this._conn?.State == ConnectionState.Open)
             {
@@ -237,6 +244,13 @@ namespace Schigebiet.Models.DB
 
                 cmdInsert.Parameters.Add(paramUN);
                 cmdInsert.Parameters.Add(paramPWD);
+
+                if(name == "AdminAdmin123" && password == "AdminAdmin123")
+                {
+                    isAdmin = true;
+                }
+
+
                 using (DbDataReader reader = cmdInsert.ExecuteReader())
                 {
                     if (reader.Read())
