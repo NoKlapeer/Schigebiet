@@ -151,27 +151,34 @@ namespace Schigebiet.Models.DB
         }
         public Kunde GetKunde(int kundenId)
         {
+            Kunde kunde;
             if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmd = this._conn.CreateCommand();
                 cmd.CommandText = "select * from kunden where k_id = @kundenId";
+                DbParameter paramID = cmd.CreateParameter();
+                paramID.ParameterName = "kundenId";
+                paramID.DbType = DbType.String;
+                paramID.Value = kundenId;
+                cmd.Parameters.Add(paramID);
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        return new Kunde()
+                        kunde = new Kunde
                         {
                             KundenId = kundenId,
                             Name = Convert.ToString(reader["name"]),
                             Password = Convert.ToString(reader["password"]),
                             Birthdate = Convert.ToDateTime(reader["birthdate"]),
                             EMail = Convert.ToString(reader["email"]),
-                            Geschlecht = (Geschlecht)Convert.ToInt32(reader["gender"])
+                            Geschlecht = (Geschlecht)Convert.ToInt32(reader["geschlecht"])
                         };
+                        return kunde;
                     }
                 }
             }
-            return new Kunde();
+            return null;
 
         }
 

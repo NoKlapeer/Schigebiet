@@ -102,8 +102,23 @@ namespace Schigebiet.Controllers
 
 
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Update(int id)
         {
+            try
+            {
+                rep.Connect();
+                // Liste mit allen Usern an die View übergeben
+                return View(rep.GetKunde(id));
+            }
+            catch (DbException)
+            {
+                return View("_Message", new Message("Datenbankfehler", "Der Kunde konnten nicht geladen werdne",
+                    "Versuchen sie es später erneut"));
+            }
+            finally
+            {
+                rep.Disconnect();
+            }
             return View();
         }
 
